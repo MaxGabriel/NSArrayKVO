@@ -14,6 +14,18 @@ This implementation is pretty simple, though KVO is a bit clunky as always. I th
     return [self mutableArrayValueForKey: @"list"];
 }
 
+// Allocate the array, add an observer, and then add an object to it using the proxy object
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.list = [NSMutableArray array];
+    
+    [self addObserver:self forKeyPath:@"list" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
+    
+    [[self mutableList] addObject:@"test"];
+    
+}
+
 // Pull the change information (like what object was added at what index) from the change dictionary
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
